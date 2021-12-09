@@ -12,7 +12,7 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
         homePage.openPage();
         homePage.goToTwitterLoginPage();
 
-        loginPage.fillTwitterLoginCredentials("_chz24", ";I_.~_AZl9FyN>#~Yp");
+        loginPage.fillTwitterLoginCredentials("", "");
     }
 
     @Test

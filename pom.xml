@@ -13,6 +13,10 @@
         <maven.compiler.target>8</maven.compiler.target>
 
         <tetikus.core.version>0.1.9</tetikus.core.version>
+        <hamcrest.core.version>2.2</hamcrest.core.version>
+
+        <sonar.organization>ubaifadhli</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <repositories>
@@ -34,7 +38,7 @@
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
-            <version>2.2</version>
+            <version>${hamcrest.core.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

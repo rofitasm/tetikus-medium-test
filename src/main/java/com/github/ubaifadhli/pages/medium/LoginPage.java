@@ -5,7 +5,7 @@ import com.github.ubaifadhli.annotations.MobileLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 
-public class MediumLoginPage extends PageObject {
+public class LoginPage extends PageObject {
     // Should have had the same locator except WebView problem with UIAutomator2 just came to ruin it.
     @Locator(webID = "username_or_email",
             mobileXPath = "//android.widget.EditText[@resource-id='username_or_email']")

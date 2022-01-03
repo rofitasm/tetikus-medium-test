@@ -3,6 +3,7 @@ import com.github.ubaifadhli.pages.medium.CreateArticlePage;
 import com.github.ubaifadhli.pages.medium.HomePage;
 import com.github.ubaifadhli.pages.medium.LoginPage;
 import com.github.ubaifadhli.runners.TetikusBaseRunner;
+import com.github.ubaifadhli.util.PropertiesReader;
 import com.github.ubaifadhli.util.RandomGenerator;
 import org.testng.annotations.Test;
 
@@ -18,10 +19,15 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
     @Test
     public void login() {
+        PropertiesReader reader = new PropertiesReader("application.properties");
+
+        String username = reader.getPropertyAsString("login.twitter.username");
+        String password = reader.getPropertyAsString("login.twitter.password");
+
         homePage.openPage();
         homePage.goToTwitterLoginPage();
 
-        loginPage.fillTwitterLoginCredentials("", "");
+        loginPage.fillTwitterLoginCredentials(username, password);
     }
 
     @Test
@@ -75,6 +81,4 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
         assertThat(firstArticleTitle, not(currentFirstArticleTitle));
     }
-
-
 }

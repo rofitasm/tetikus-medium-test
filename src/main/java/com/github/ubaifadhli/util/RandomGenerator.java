@@ -4,15 +4,14 @@ import java.util.Random;
 
 public class RandomGenerator {
     public static String generateString() {
-        int leftLimit = 97; // letter 'a'
-        int rightLimit = 122; // letter 'z'
-
-        int targetStringLength = 10;
+        int lowerBound = 97; // letter 'a'
+        int upperBound = 122; // letter 'z'
+        int stringLength = 10;
 
         Random random = new Random();
 
-        return random.ints(leftLimit, rightLimit + 1)
-                .limit(targetStringLength)
+        return random.ints(lowerBound, upperBound + 1)
+                .limit(stringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
     }

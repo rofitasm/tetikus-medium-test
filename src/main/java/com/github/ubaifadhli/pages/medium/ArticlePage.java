@@ -2,21 +2,25 @@
 package com.github.ubaifadhli.pages.medium;
 
 import com.github.ubaifadhli.annotations.Locator;
-import com.github.ubaifadhli.annotations.WebLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 
 public class ArticlePage extends PageObject {
-    @Locator(mobileAccessibilityID = "Read responses")
+    @Locator(webXPath = "//div[child::*[local-name()='svg' and @aria-label='responses']]",
+            mobileAccessibilityID = "Read responses")
     private Element commentButton;
 
-    @Locator(mobileID = "com.medium.reader:id/response_editor")
+    @Locator(webXPath = "//div[@role='textbox']",
+            mobileID = "com.medium.reader:id/response_editor")
     private Element commentField;
 
-    @Locator(mobileAccessibilityID = "Publish response")
+    @Locator(webXPath = "//button[text()='Respond']",
+            mobileAccessibilityID = "Publish response")
     private Element publishCommentButton;
 
-    @Locator(mobileID = "com.medium.reader:id/response_text")
+    // Cannot find better locator for web.
+    @Locator(webXPath = "//pre/div/div/div",
+            mobileID = "com.medium.reader:id/response_text")
     private Element firstComment;
 
     public void createComment(String commentText) {

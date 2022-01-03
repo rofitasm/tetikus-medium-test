@@ -4,7 +4,6 @@ import com.github.ubaifadhli.annotations.Locator;
 import com.github.ubaifadhli.annotations.WebLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
-import com.github.ubaifadhli.util.RandomGenerator;
 
 public class CreateArticlePage extends PageObject {
     @Locator(webXPath = "//h3[contains(@class, 'graf--title')]",
@@ -27,11 +26,12 @@ public class CreateArticlePage extends PageObject {
 
         articleTextArea.typeIntoField(articleTitle);
 
-        articleParagraphTextArea.typeIntoField(RandomGenerator.generateString());
-
         publishArticleButton.waitUntilClickable().click();
 
         confirmPublishArticleButton.waitUntilClickable().click();
+
+        // Needs to slow down as the published article list are not updated yet.
+        waitFor(2);
 
         openPage("https://medium.com/me/stories/public");
     }

@@ -1,8 +1,8 @@
-
 package com.github.ubaifadhli.pages.medium;
 
 import com.github.ubaifadhli.annotations.BaseURL;
 import com.github.ubaifadhli.annotations.Locator;
+import com.github.ubaifadhli.annotations.WebLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 import com.github.ubaifadhli.util.MobileElementFunction;
@@ -38,13 +38,22 @@ public class HomePage extends PageObject {
             mobileID = "com.medium.reader:id/search_input")
     private Element searchInput;
 
-    @Locator(mobileAccessibilityID = "More options")
+    @Locator(webXPath = "//button[@aria-controls='yourStoryActionsMenu']",
+            mobileAccessibilityID = "More options")
     private Element articleEllipsis;
 
-    @Locator(mobileXPath = "//android.widget.TextView[@text='Delete']")
+    @Locator(webXPath = "//div[@id='yourStoryActionsMenu']//button",
+            mobileXPath = "//android.widget.TextView[@text='Delete']")
     private Element deleteArticleButton;
 
-    @Locator(mobileID = "android:id/button1")
+    @WebLocator(xpath = "//a[text()='Stories']")
+    private Element dropdownArticleButton;
+
+    @WebLocator(xpath = "//div[contains(text(), 'Published')]")
+    private Element publishedArticleSection;
+
+    @Locator(webXPath = "//button[text()='Delete']",
+            mobileID = "android:id/button1")
     private Element confirmDeleteArticleButton;
 
     @Locator(webXPath = "//div[@class='postArticle-content']//h3",
@@ -69,8 +78,16 @@ public class HomePage extends PageObject {
         searchInput.pressEnter();
     }
 
-    public void openFirstUserArticle() {
+    public void goToPublishedArticlePage() {
         profileButton.waitUntilClickable().click();
+
+        dropdownArticleButton.waitUntilClickable().click();
+
+        publishedArticleSection.waitUntilClickable().click();
+    }
+
+    public void openFirstUserArticle() {
+        goToPublishedArticlePage();
 
         userArticleTitle.waitUntilClickable().click();
     }
@@ -86,12 +103,15 @@ public class HomePage extends PageObject {
         deleteArticleButton.waitUntilClickable().click();
 
         confirmDeleteArticleButton.waitUntilClickable().click();
+
+        waitFor(3);
     }
 
     public void refreshProfilePage() {
         profileButton.waitUntilClickable();
 
-        new MobileElementFunction(getMobileDriver()).swipe(25, SwipeDirection.DOWN);
+        if (isCurrentPlatformMobile())
+            new MobileElementFunction(getMobileDriver()).swipe(25, SwipeDirection.DOWN);
 
         waitFor(2);
     }

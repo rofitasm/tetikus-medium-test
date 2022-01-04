@@ -2,8 +2,11 @@
 package com.github.ubaifadhli.pages.medium;
 
 import com.github.ubaifadhli.annotations.Locator;
+import com.github.ubaifadhli.annotations.MobileLocator;
+import com.github.ubaifadhli.annotations.WebLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
+import com.github.ubaifadhli.util.MobileElementFunction;
 
 public class ArticlePage extends PageObject {
     @Locator(webXPath = "//div[child::*[local-name()='svg' and @aria-label='responses']]",
@@ -23,6 +26,13 @@ public class ArticlePage extends PageObject {
             mobileID = "com.medium.reader:id/response_text")
     private Element firstComment;
 
+    @Locator(webXPath = "//button[child::*[local-name()='svg' ] and @aria-label='Add to list bookmark button']",
+            mobileCoordinate = {760, 1689})
+    private Element addToBookmarkButton;
+
+    @MobileLocator(id = "com.medium.reader:id/btn_save_to")
+    private Element confirmAddToBookmarkButton;
+
     public void createComment(String commentText) {
         commentButton.waitUntilClickable().click();
 
@@ -33,6 +43,15 @@ public class ArticlePage extends PageObject {
         publishCommentButton.waitUntilClickable().click();
 
         waitFor(2);
+    }
+
+    public void clickAddToBookmarkButton() {
+        addToBookmarkButton.waitUntilClickable().click();
+
+        confirmAddToBookmarkButton.waitUntilClickable().click();
+
+        if (isCurrentPlatformMobile())
+            new MobileElementFunction(getMobileDriver()).goBack();
     }
 
     public String getFirstCommentText() {

@@ -1,7 +1,4 @@
-import com.github.ubaifadhli.pages.medium.ArticlePage;
-import com.github.ubaifadhli.pages.medium.CreateArticlePage;
-import com.github.ubaifadhli.pages.medium.HomePage;
-import com.github.ubaifadhli.pages.medium.LoginPage;
+import com.github.ubaifadhli.pages.medium.*;
 import com.github.ubaifadhli.runners.TetikusBaseRunner;
 import com.github.ubaifadhli.util.PropertiesReader;
 import com.github.ubaifadhli.util.RandomGenerator;
@@ -16,6 +13,9 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
     private LoginPage loginPage;
     private CreateArticlePage createArticlePage;
     private ArticlePage articlePage;
+    private SettingsPage settingsPage;
+    private ListPage listPage;
+    private UserPublicProfilePage userPublicProfilePage;
 
     @Test
     public void login() {
@@ -80,5 +80,54 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
         String currentFirstArticleTitle = homePage.getFirstUserArticleTitle();
 
         assertThat(firstArticleTitle, not(currentFirstArticleTitle));
+    }
+
+    @Test
+    public void editBio() {
+        String BIO = "Current bio " + RandomGenerator.generateString();
+
+        login();
+
+        homePage.goToSettingsPage();
+
+        settingsPage.editBio(BIO);
+
+        assertThat(userPublicProfilePage.getUserBio(), equalTo(BIO));
+    }
+
+    @Test
+    public void createNewList() {
+        String NEW_LIST_NAME = "List name " + RandomGenerator.generateString();
+
+        login();
+
+        homePage.goToListsPage();
+
+        listPage.createNewList(NEW_LIST_NAME);
+
+        homePage.goToListsPage();
+
+        assertThat(listPage.getSecondListName(), equalTo(NEW_LIST_NAME));
+    }
+
+    @Test
+    public void addArticleToList() {
+        login();
+
+        homePage.goToListsPage();
+
+        int currentArticleCount = listPage.getFirstListArticleCount();
+
+        homePage.openPage();
+
+        homePage.openFirstHomeArticle();
+
+        articlePage.clickAddToBookmarkButton();
+
+        homePage.goToListsPage();
+
+        int finalArticleCount = listPage.getFirstListArticleCount();
+
+        assertThat(finalArticleCount, equalTo(currentArticleCount  + 1));
     }
 }

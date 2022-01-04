@@ -2,6 +2,7 @@ package com.github.ubaifadhli.pages.medium;
 
 import com.github.ubaifadhli.annotations.BaseURL;
 import com.github.ubaifadhli.annotations.Locator;
+import com.github.ubaifadhli.annotations.MobileLocator;
 import com.github.ubaifadhli.annotations.WebLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
@@ -25,6 +26,21 @@ public class HomePage extends PageObject {
     @Locator(webXPath = "//button[child::img]",
             mobileID = "com.medium.reader:id/profile_image")
     private Element profileButton;
+
+    @Locator(webXPath = "//a[text()='Settings']",
+            mobileAccessibilityID = "Settings")
+    private Element settingsButton;
+
+    @MobileLocator(id = "com.medium.reader:id/item_account")
+    private Element accountButton;
+
+    @Locator(webXPath = "//a[text()='Lists']",
+            mobileAccessibilityID = "Reading List")
+    private Element listsButton;
+
+    @Locator(webXPath = "//a/h2",
+            mobileXPath = "//android.widget.TextView[@resource-id='com.medium.reader:id/post_preview_title']")
+    private Element firstHomeArticle;
 
     @Locator(webXPath = "//a[text()='Write a story']",
             mobileAccessibilityID = "Write a story")
@@ -78,6 +94,20 @@ public class HomePage extends PageObject {
         searchInput.pressEnter();
     }
 
+    public void goToSettingsPage() {
+        profileButton.waitUntilClickable().click();
+
+        settingsButton.waitUntilClickable().click();
+
+        accountButton.waitUntilClickable().click();
+    }
+
+    public void goToListsPage() {
+        profileButton.waitUntilClickable().click();
+
+        listsButton.waitUntilClickable().click();
+    }
+
     public void goToPublishedArticlePage() {
         profileButton.waitUntilClickable().click();
 
@@ -95,6 +125,10 @@ public class HomePage extends PageObject {
     public void createNewArticle() {
         profileButton.waitUntilClickable().click();
         createNewArticleButton.waitUntilClickable().click();
+    }
+
+    public void openFirstHomeArticle() {
+        firstHomeArticle.waitUntilClickable().click();
     }
 
     public void deleteArticle() {

@@ -10,7 +10,7 @@ public class ListPage extends PageObject {
     private Element createNewListButton;
 
     @Locator(webXPath = "//input[@placeholder='Give it a name']",
-            mobileID = "com.medium.reader:id/textinput_placeholder")
+            mobileID = "com.medium.reader:id/text_field_input_list_name")
     private Element newListNameField;
 
     @Locator(webXPath = "//button[child::span[text()='Create']]",

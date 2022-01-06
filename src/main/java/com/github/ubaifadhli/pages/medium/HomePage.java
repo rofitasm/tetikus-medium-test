@@ -23,7 +23,7 @@ public class HomePage extends PageObject {
             mobileAccessibilityID = "Discover something new")
     private Element searchButton;
 
-    @Locator(webXPath = "//button[child::img]",
+    @Locator(webXPath = "(//button[child::img])[last()]",
             mobileID = "com.medium.reader:id/profile_image")
     private Element profileButton;
 
@@ -31,10 +31,13 @@ public class HomePage extends PageObject {
             mobileAccessibilityID = "Settings")
     private Element settingsButton;
 
+    @MobileLocator(accessibilityID = "Home")
+    private Element homeButton;
+
     @MobileLocator(id = "com.medium.reader:id/item_account")
     private Element accountButton;
 
-    @Locator(webXPath = "//a[text()='Lists']",
+    @Locator(webXPath = "(//a[text()='Lists'])[last()]",
             mobileAccessibilityID = "Reading List")
     private Element listsButton;
 
@@ -128,6 +131,8 @@ public class HomePage extends PageObject {
     }
 
     public void openFirstHomeArticle() {
+        homeButton.waitUntilClickable().click();
+
         firstHomeArticle.waitUntilClickable().click();
     }
 

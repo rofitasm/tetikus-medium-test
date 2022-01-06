@@ -3,7 +3,6 @@ package com.github.ubaifadhli.pages.medium;
 
 import com.github.ubaifadhli.annotations.Locator;
 import com.github.ubaifadhli.annotations.MobileLocator;
-import com.github.ubaifadhli.annotations.WebLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 import com.github.ubaifadhli.util.MobileElementFunction;
@@ -27,7 +26,7 @@ public class ArticlePage extends PageObject {
     private Element firstComment;
 
     @Locator(webXPath = "//button[child::*[local-name()='svg' ] and @aria-label='Add to list bookmark button']",
-            mobileCoordinate = {760, 1689})
+            mobileID = "com.medium.reader:id/bookmark_touch_target")
     private Element addToBookmarkButton;
 
     @MobileLocator(id = "com.medium.reader:id/btn_save_to")
@@ -47,6 +46,8 @@ public class ArticlePage extends PageObject {
 
     public void clickAddToBookmarkButton() {
         addToBookmarkButton.waitUntilClickable().click();
+
+        waitFor(2);
 
         confirmAddToBookmarkButton.waitUntilClickable().click();
 

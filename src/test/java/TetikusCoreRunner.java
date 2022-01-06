@@ -44,7 +44,7 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
     @Test
     public void createNewArticle() {
-        String ARTICLE_TITLE = "Test article " + RandomGenerator.generateString();
+        String ARTICLE_TITLE = "Test article " + RandomGenerator.generateNumberString();
 
         login();
 
@@ -58,7 +58,7 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
     @Test
     public void createNewComment() {
-        String COMMENT = "Try to comment " + RandomGenerator.generateString();
+        String COMMENT = "Try to comment " + RandomGenerator.generateNumberString();
 
         login();
 
@@ -84,7 +84,7 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
     @Test
     public void editBio() {
-        String BIO = "Current bio " + RandomGenerator.generateString();
+        String BIO = "Current bio " + RandomGenerator.generateNumberString();
 
         login();
 
@@ -97,7 +97,7 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
     @Test
     public void createNewList() {
-        String NEW_LIST_NAME = "List name " + RandomGenerator.generateString();
+        String NEW_LIST_NAME = "List name " + RandomGenerator.generateNumberString();
 
         login();
 
@@ -124,10 +124,12 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
         articlePage.clickAddToBookmarkButton();
 
+        homePage.openPage();
+
         homePage.goToListsPage();
 
         int finalArticleCount = listPage.getFirstListArticleCount();
 
-        assertThat(finalArticleCount, equalTo(currentArticleCount  + 1));
+        assertThat(finalArticleCount, equalTo(currentArticleCount + 1));
     }
 }

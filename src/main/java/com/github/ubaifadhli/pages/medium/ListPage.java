@@ -21,7 +21,7 @@ public class ListPage extends PageObject {
             mobileXPath = "(//android.widget.TextView[@resource-id='com.medium.reader:id/tv_name'])[2]")
     private Element secondListName;
 
-    @Locator(webXPath = "//div/div/p", mobileID = "com.medium.reader:id/tv_counters")
+    @Locator(webXPath = "//a[contains(@href, 'reading-list')]//p", mobileID = "com.medium.reader:id/tv_counters")
     private Element listArticleCount;
 
     public void createNewList(String newListName) {
@@ -41,6 +41,6 @@ public class ListPage extends PageObject {
     public int getFirstListArticleCount() {
         String articleCount = listArticleCount.waitUntilVisible().getText().split(" ")[0];
 
-        return Integer.parseInt(articleCount);
+        return articleCount.equals("Nothing") ? 0 : Integer.parseInt(articleCount);
     }
 }

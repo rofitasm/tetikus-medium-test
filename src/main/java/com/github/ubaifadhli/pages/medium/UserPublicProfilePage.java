@@ -6,7 +6,7 @@ import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 
 public class UserPublicProfilePage extends PageObject {
-    @Locator(webXPath = "//h2//following-sibling::div/p",
+    @Locator(webXPath = "//h2/parent::a/following-sibling::p",
             mobileID = "com.medium.reader:id/tvBio")
     private Element userBio;
 

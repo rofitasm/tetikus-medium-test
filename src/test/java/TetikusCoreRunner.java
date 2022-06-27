@@ -1,12 +1,10 @@
 import com.github.ubaifadhli.pages.medium.*;
 import com.github.ubaifadhli.runners.TetikusBaseRunner;
-import com.github.ubaifadhli.util.PropertiesReader;
-import com.github.ubaifadhli.util.RandomGenerator;
+import com.github.ubaifadhli.util.*;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 
 public class TetikusCoreRunner extends TetikusBaseRunner {
     private HomePage homePage;
@@ -16,15 +14,15 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
     private SettingsPage settingsPage;
     private ListPage listPage;
     private UserPublicProfilePage userPublicProfilePage;
+    private ProfilePage profilePage;
 
     @Test
     public void login() {
-        PropertiesReader reader = new PropertiesReader("application.properties");
-
-        String username = reader.getPropertyAsString("login.twitter.username");
-        String password = reader.getPropertyAsString("login.twitter.password");
+        String username = TetikusPropertiesReader.getPropertyAsString("login.twitter.username");
+        String password = TetikusPropertiesReader.getPropertyAsString("login.twitter.password");
 
         homePage.openPage();
+
         homePage.goToTwitterLoginPage();
 
         loginPage.fillTwitterLoginCredentials(username, password);
@@ -35,7 +33,7 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
         String SEARCH_KEYWORD = "spring boot";
         String EXPECTED_FIRST_ARTICLE_NAME = "How to scale Microservices with Message Queues, Spring Boot, and Kubernetes";
 
-        login();
+        homePage.openPage();
 
         homePage.searchForArticle(SEARCH_KEYWORD);
 
@@ -44,9 +42,11 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
     @Test
     public void createNewArticle() {
-        String ARTICLE_TITLE = "Test article " + RandomGenerator.generateNumberString();
+        String ARTICLE_TITLE = "Test article " + DatetimeHelper.getCurrentDatetime();
 
-        login();
+        homePage.openPage();
+
+//        homePage.waitFor(600);
 
         homePage.createNewArticle();
         createArticlePage.fillAndPublishArticle(ARTICLE_TITLE);
@@ -58,11 +58,15 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
     @Test
     public void createNewComment() {
-        String COMMENT = "Try to comment " + RandomGenerator.generateNumberString();
+        String COMMENT = "Try to comment " + DatetimeHelper.getCurrentDatetime();
 
-        login();
+        homePage.openPage();
 
-        homePage.openFirstUserArticle();
+//        homePage.waitFor(600);
+
+//        homePage.openFirstUserArticle();
+        homePage.goToPublishedArticlePage();
+        profilePage.clickUserArticleTitle();
 
         articlePage.createComment(COMMENT);
 
@@ -73,20 +77,22 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
     public void deleteArticle() {
         createNewArticle();
 
-        String firstArticleTitle = homePage.getFirstUserArticleTitle();
+        String firstArticleTitle = profilePage.getFirstUserArticleTitle();
 
         homePage.deleteArticle();
 
-        String currentFirstArticleTitle = homePage.getFirstUserArticleTitle();
+        String currentFirstArticleTitle = profilePage.getFirstUserArticleTitle();
 
         assertThat(firstArticleTitle, not(currentFirstArticleTitle));
     }
 
     @Test
     public void editBio() {
-        String BIO = "Current bio " + RandomGenerator.generateNumberString();
+        String BIO = "Current bio " + DatetimeHelper.getCurrentDatetime();
 
-        login();
+//        homePage.waitFor(600);
+
+        homePage.openPage();
 
         homePage.goToSettingsPage();
 
@@ -97,9 +103,9 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
     @Test
     public void createNewList() {
-        String NEW_LIST_NAME = "List name " + RandomGenerator.generateNumberString();
+        String NEW_LIST_NAME = "List name " + DatetimeHelper.getCurrentDatetime();
 
-        login();
+        homePage.openPage();
 
         homePage.goToListsPage();
 
@@ -112,7 +118,8 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
     @Test
     public void addArticleToList() {
-        login();
+//        homePage.waitFor(600);
+        homePage.openPage();
 
         homePage.goToListsPage();
 
@@ -120,7 +127,7 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
 
         homePage.openPage();
 
-        homePage.openFirstHomeArticle();
+        homePage.openHomeArticle();
 
         articlePage.clickAddToBookmarkButton();
 

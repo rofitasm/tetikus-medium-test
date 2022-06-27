@@ -18,15 +18,10 @@ public class LoginPage extends PageObject {
             mobileXPath = "//android.widget.Button[@resource-id='allow']")
     private Element twitterSignInButton;
 
-    @MobileLocator(id = "com.medium.reader:id/tw__web_view")
-    private Element mobileTwitterWebView;
-
     @MobileLocator(id = "com.medium.reader:id/title")
     private Element mobileHomeTitle;
 
     public void fillTwitterLoginCredentials(String email, String password) {
-        mobileTwitterWebView.waitUntilVisible().click();
-
         twitterUsernameField.waitUntilVisible().typeIntoField(email);
         twitterPasswordField.waitUntilVisible().typeIntoField(password);
 

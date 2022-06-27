@@ -1,6 +1,7 @@
 package com.github.ubaifadhli.pages.medium;
 
 import com.github.ubaifadhli.annotations.Locator;
+import com.github.ubaifadhli.annotations.MobileLocator;
 import com.github.ubaifadhli.annotations.WebLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
@@ -21,8 +22,13 @@ public class CreateArticlePage extends PageObject {
             mobileID = "com.medium.reader:id/edit_post_add_tags_dialog_publish")
     private Element confirmPublishArticleButton;
 
+    @MobileLocator(id = "com.medium.reader:id/edit_post_toolbar_title")
+    private Element titleToolbar;
+
     public void fillAndPublishArticle(String articleTitle) {
         articleTextArea.waitUntilVisible().click();
+
+        titleToolbar.waitUntilClickable().click();
 
         articleTextArea.typeIntoField(articleTitle);
 

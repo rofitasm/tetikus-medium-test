@@ -12,7 +12,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <tetikus.core.version>0.1.11</tetikus.core.version>
+        <tetikus.core.version>0.2.2</tetikus.core.version>
         <hamcrest.core.version>2.2</hamcrest.core.version>
 
         <sonar.organization>ubaifadhli</sonar.organization>
@@ -32,6 +32,8 @@
             <groupId>com.github.ubaifadhli</groupId>
             <artifactId>tetikus-core</artifactId>
             <version>${tetikus.core.version}</version>
+<!--            <scope>provided</scope>-->
+<!--            220608 4:33 PM - IF THIS BREAKS AGAIN THEN THE SCOPE SHOULD BE ENABLED-->
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core -->
@@ -40,6 +42,27 @@
             <artifactId>hamcrest-core</artifactId>
             <version>${hamcrest.core.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.10</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.32</version>
         </dependency>
     </dependencies>
 

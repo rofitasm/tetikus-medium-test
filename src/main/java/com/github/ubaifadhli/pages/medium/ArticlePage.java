@@ -8,7 +8,7 @@ import com.github.ubaifadhli.util.Element;
 import com.github.ubaifadhli.util.MobileElementFunction;
 
 public class ArticlePage extends PageObject {
-    @Locator(webXPath = "//div[child::*[local-name()='svg' and @aria-label='responses']]",
+    @Locator(webXPath = "(//button[@aria-label='responses'])[2]",
             mobileAccessibilityID = "Read responses")
     private Element commentButton;
 
@@ -26,7 +26,7 @@ public class ArticlePage extends PageObject {
     private Element firstComment;
 
     @Locator(webXPath = "//button[child::*[local-name()='svg' ] and @aria-label='Add to list bookmark button']",
-            mobileID = "com.medium.reader:id/bookmark_touch_target")
+            mobileXPath = "//android.widget.ImageView[@content-desc='Save']")
     private Element addToBookmarkButton;
 
     @MobileLocator(id = "com.medium.reader:id/btn_save_to")
@@ -45,6 +45,8 @@ public class ArticlePage extends PageObject {
     }
 
     public void clickAddToBookmarkButton() {
+        waitFor(1);
+
         addToBookmarkButton.waitUntilClickable().click();
 
         waitFor(2);

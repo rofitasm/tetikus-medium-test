@@ -7,8 +7,7 @@
       "platformName": "Android",
       "udid": "emulator-5554",
       "appPackage": "com.medium.reader",
-      "appActivity": "com.medium.android.donkey.start.SplashActivity",
-      "noReset": true
+      "appActivity": "com.medium.android.donkey.start.SplashActivity"
     }
   },
   {

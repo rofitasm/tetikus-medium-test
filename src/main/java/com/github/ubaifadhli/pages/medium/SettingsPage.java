@@ -12,14 +12,14 @@ public class SettingsPage extends PageObject {
     private Element editBioButton;
 
     @Locator(webXPath = "//p[contains(@class, 'graf--p')]",
-            mobileXPath = "//android.widget.EditText")
+            mobileXPath = "//android.widget.EditText[@resource-id='editor_6']")
     private Element editBioField;
 
     @Locator(webXPath = "//button[@data-action='save-bio']",
             mobileXPath = "(//android.widget.Button)[2]")
     private Element saveBioButton;
 
-    @Locator(webXPath = "//p[@data-default-value='Add your bio']//following-sibling::div/a",
+    @Locator(webXPath = "//p[@data-default-value='Add your short bio']//following-sibling::div/a",
             mobileXPath = "(//android.view.View[@content-desc='Profile'])[2]/android.widget.TextView")
     private Element userPublicProfileLink;
 
@@ -29,12 +29,20 @@ public class SettingsPage extends PageObject {
     public void editBio(String bioText) {
         mobileWebView.waitUntilVisible().click();
 
-        if (isCurrentPlatformWeb())
-            editBioButton.clear();
+        if (isCurrentPlatformWeb()) {
+            editBioButton.waitUntilClickable().click();
+            editBioField.waitUntilVisible().clear();
 
-        editBioButton.waitUntilClickable().click();
+        } else {
+            while (!editBioButton.forMobile().isKeyboardShown()) {
+                editBioButton.waitUntilClickable().click();
+                waitFor(1);
+            }
 
-        editBioField.waitUntilVisible().typeIntoField(bioText);
+            editBioField.waitUntilVisible();
+        }
+
+        editBioField.typeIntoField(bioText);
 
         if (isCurrentPlatformMobile())
             new MobileElementFunction(getMobileDriver()).goBack();

@@ -14,7 +14,7 @@ public class CreateArticlePage extends PageObject {
     @WebLocator(xpath = "//p[contains(@class, 'graf--p')]")
     private Element articleParagraphTextArea;
 
-    @Locator(webXPath = "//button[@data-action='show-prepublish']",
+    @Locator(webXPath = "//button[@data-action='show-prepublish' or @data-action='republish']",
             mobileID = "com.medium.reader:id/publish_button")
     private Element publishArticleButton;
 
@@ -24,6 +24,22 @@ public class CreateArticlePage extends PageObject {
 
     @MobileLocator(id = "com.medium.reader:id/edit_post_toolbar_title")
     private Element titleToolbar;
+
+    public void fillAndRepublishArticle(String articleTitle) {
+        articleTextArea.waitUntilVisible().clear();
+        articleTextArea.waitUntilVisible().click();
+
+        titleToolbar.waitUntilClickable().click();
+
+        articleTextArea.typeIntoField(articleTitle);
+
+        publishArticleButton.waitUntilClickable().click();
+
+        // Needs to slow down as the published article list are not updated yet.
+        waitFor(2);
+
+        openPage("https://medium.com/me/stories/public");
+    }
 
     public void fillAndPublishArticle(String articleTitle) {
         articleTextArea.waitUntilVisible().click();

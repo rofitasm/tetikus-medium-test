@@ -8,6 +8,7 @@ import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 import com.github.ubaifadhli.util.MobileElementFunction;
 import com.github.ubaifadhli.util.SwipeDirection;
+import com.github.ubaifadhli.util.WebElementFunction;
 
 @BaseURL("https://www.medium.com")
 public class HomePage extends PageObject {
@@ -22,7 +23,7 @@ public class HomePage extends PageObject {
     @MobileLocator(accessibilityID = "Discover something new")
     private Element searchButton;
 
-//    @Locator(webXPath = "(//button[child::img])[last()]",
+    //    @Locator(webXPath = "(//button[child::img])[last()]",
 //            mobileID = "com.medium.reader:id/profile_image")
     @Locator(webXPath = "//button[@aria-label='user options menu']",
             mobileID = "com.medium.reader:id/image")
@@ -33,7 +34,7 @@ public class HomePage extends PageObject {
             mobileXPath = "//android.widget.TextView[contains(@text, 'Settings')]")
     private Element settingsButton;
 
-    @MobileLocator(accessibilityID = "Home")
+    @Locator(webXPath = "//*[local-name()='svg' and @aria-label='Home']", mobileAccessibilityID = "Home")
     private Element homeButton;
 
     @MobileLocator(id = "com.medium.reader:id/item_account")
@@ -43,7 +44,7 @@ public class HomePage extends PageObject {
             mobileAccessibilityID = "Reading List")
     private Element listsButton;
 
-    @Locator(webXPath = "(//a/h2)[2]",
+    @Locator(webXPath = "//a[@aria-label='Post Preview Title']",
             mobileXPath = "//android.widget.TextView[@resource-id='com.medium.reader:id/post_preview_title' and count(following-sibling::*)=6 and following-sibling::*[@content-desc='Unsave']]")
     private Element firstHomeArticle;
 
@@ -59,23 +60,11 @@ public class HomePage extends PageObject {
             mobileID = "com.medium.reader:id/search_input")
     private Element searchInput;
 
-    @Locator(webXPath = "//button[@aria-controls='yourStoryActionsMenu']",
-            mobileAccessibilityID = "More options")
-    private Element articleEllipsis;
-
-    @Locator(webXPath = "//div[@id='yourStoryActionsMenu']//button",
-            mobileXPath = "//android.widget.TextView[@text='Delete']")
-    private Element deleteArticleButton;
-
     @WebLocator(xpath = "//a[contains(@href, '/@') and descendant::img]")
     private Element dropdownProfileButton;
 
     @WebLocator(xpath = "//div[contains(text(), 'Published')]")
     private Element publishedArticleSection;
-
-    @Locator(webXPath = "//button[text()='Delete']",
-            mobileID = "android:id/button1")
-    private Element confirmDeleteArticleButton;
 
     @Locator(webXPath = "//a[@aria-label='Post Preview Title']//h2",
             mobileXPath = "//android.widget.TextView[@resource-id='com.medium.reader:id/post_preview_title']")
@@ -84,6 +73,14 @@ public class HomePage extends PageObject {
     @MobileLocator(xpath = "//android.widget.FrameLayout[@resource-id='com.medium.reader:id/you_tab_header_settings']/android.widget.ImageView")
     private Element profileEllipsis;
 
+    @Locator(webXPath = "(//a[text()='Get unlimited access'])[2]",
+            mobileID = "com.medium.reader:id/item_become_a_member")
+    private Element getMembershipButton;
+
+    @Locator(webXPath = "//a[contains(@href, 'following')]//p",
+            mobileID = "com.medium.reader:id/creator_groupie_header_following_count")
+    private Element followingButton;
+
     public void clickProfileEllipsis() {
         profileEllipsis.waitUntilClickable().click();
     }
@@ -91,6 +88,22 @@ public class HomePage extends PageObject {
     public void goToTwitterLoginPage() {
         signInButton.waitUntilClickable().click();
         signInWithTwitterButton.waitUntilClickable().click();
+    }
+
+    public void openFollowingPage() {
+        waitFor(1);
+
+        profileButton.waitUntilClickable().click();
+        followingButton.waitUntilClickable().click();
+    }
+
+    public void backToHomeFromArticleWriter() {
+        if (isCurrentPlatformWeb())
+            homeButton.waitUntilClickable().click();
+        else {
+            new MobileElementFunction(getMobileDriver()).goBack();
+            new MobileElementFunction(getMobileDriver()).goBack();
+        }
     }
 
     public void searchForArticle(String keyword) {
@@ -109,7 +122,16 @@ public class HomePage extends PageObject {
         profileEllipsis.waitUntilClickable().click();
 
         settingsButton.waitUntilClickable().click();
+    }
 
+    public void goToMembershipPage() {
+        if (isCurrentPlatformMobile())
+            goToSettingsPage();
+
+        getMembershipButton.waitUntilClickable().click();
+    }
+
+    public void goToAccountSettingsPage() {
         accountButton.waitUntilClickable().click();
     }
 
@@ -119,14 +141,13 @@ public class HomePage extends PageObject {
 
         waitFor(1);
         listsButton.waitUntilClickable().click();
+        waitFor(1);
     }
 
     public void goToPublishedArticlePage() {
         profileButton.waitUntilClickable().click();
 
         dropdownProfileButton.waitUntilClickable().click();
-
-//        publishedArticleSection.waitUntilClickable().click();
     }
 
     public void openFirstUserArticle() {
@@ -147,17 +168,9 @@ public class HomePage extends PageObject {
     public void openHomeArticle() {
         homeButton.waitUntilClickable().click();
 
+        waitFor(1);
+
         firstHomeArticle.waitUntilClickable().click();
-    }
-
-    public void deleteArticle() {
-        articleEllipsis.waitUntilClickable().click();
-
-        deleteArticleButton.waitUntilClickable().click();
-
-        confirmDeleteArticleButton.waitUntilClickable().click();
-
-        waitFor(3);
     }
 
     public void refreshProfilePage() {
@@ -166,7 +179,11 @@ public class HomePage extends PageObject {
 
             waitFor(2);
 
-            new MobileElementFunction(getMobileDriver()).swipe(35, SwipeDirection.DOWN);
+            MobileElementFunction mobileElementFunction = new MobileElementFunction(getMobileDriver());
+
+            mobileElementFunction.swipe(50, SwipeDirection.DOWN);
+            waitFor(1);
+            mobileElementFunction.swipe(50, SwipeDirection.DOWN);
         }
 
         waitFor(2);

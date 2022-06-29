@@ -3,6 +3,8 @@ package com.github.ubaifadhli.pages.medium;
 import com.github.ubaifadhli.annotations.Locator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
+import com.github.ubaifadhli.util.MobileElementFunction;
+import com.github.ubaifadhli.util.SwipeDirection;
 
 public class ListPage extends PageObject {
     @Locator(webXPath = "//button[text()='New list']",
@@ -24,6 +26,10 @@ public class ListPage extends PageObject {
     @Locator(webXPath = "//a[contains(@href, 'reading-list')]//p", mobileID = "com.medium.reader:id/tv_counters")
     private Element listArticleCount;
 
+    @Locator(webXPath = "//h2[text()='Reading list']",
+            mobileXPath = "//android.widget.TextView[@text='Reading List']")
+    private Element readingListButton;
+
     public void createNewList(String newListName) {
         createNewListButton.waitUntilClickable().click();
 
@@ -34,13 +40,26 @@ public class ListPage extends PageObject {
         waitFor(2);
     }
 
+    public void clickSecondList() {
+        if (isCurrentPlatformMobile()) {
+            new MobileElementFunction(getMobileDriver()).swipe(50, SwipeDirection.UP);
+            waitFor(1);
+        }
+
+        secondListName.waitUntilClickable().click();
+    }
+
     public String getSecondListName() {
         return secondListName.waitUntilVisible().getText();
     }
 
-    public int getFirstListArticleCount() {
+    public int getReadingListArticleCount() {
         String articleCount = listArticleCount.waitUntilVisible().getText().split(" ")[0];
 
         return articleCount.equals("Nothing") ? 0 : Integer.parseInt(articleCount);
+    }
+
+    public void clickReadingList() {
+        readingListButton.waitUntilClickable().click();
     }
 }

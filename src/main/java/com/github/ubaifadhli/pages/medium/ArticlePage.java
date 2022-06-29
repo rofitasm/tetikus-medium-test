@@ -12,6 +12,10 @@ public class ArticlePage extends PageObject {
             mobileAccessibilityID = "Read responses")
     private Element commentButton;
 
+    @Locator(webXPath = "//h2[contains(@class, 'pw-author-name')]",
+            mobileAccessibilityID = "View Author Profile")
+    private Element writerProfile;
+
     @Locator(webXPath = "//div[@role='textbox']",
             mobileID = "com.medium.reader:id/response_editor")
     private Element commentField;
@@ -55,6 +59,10 @@ public class ArticlePage extends PageObject {
 
         if (isCurrentPlatformMobile())
             new MobileElementFunction(getMobileDriver()).goBack();
+    }
+
+    public void goToWriterProfile() {
+        writerProfile.waitUntilClickable().click();
     }
 
     public String getFirstCommentText() {

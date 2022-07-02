@@ -10,7 +10,7 @@ public class WriterPage extends PageObject {
     private Element followButton;
 
     @Locator(webXPath = "//h2[contains(@class, 'pw-author-name')]",
-            mobileID = "com.medium.reader:id/tvUserName")
+            mobileID = "com.medium.reader:id/creator_name")
     private Element writerNameText;
 
     public void followWriter() {

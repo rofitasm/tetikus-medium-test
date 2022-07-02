@@ -20,7 +20,7 @@ public class SettingsPage extends PageObject {
     private Element editBioField;
 
     @Locator(webXPath = "//button[@data-action='edit-username']",
-            mobileXPath = "//android.widget.Button")
+            mobileXPath = "//android.widget.Button[preceding::android.view.View[@text='Username']]")
     private Element editUsernameButton;
 
     @Locator(webXPath = "//input[contains(@class, 'usernameInput')]",

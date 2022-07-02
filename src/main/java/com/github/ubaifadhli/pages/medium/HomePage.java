@@ -8,7 +8,6 @@ import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 import com.github.ubaifadhli.util.MobileElementFunction;
 import com.github.ubaifadhli.util.SwipeDirection;
-import com.github.ubaifadhli.util.WebElementFunction;
 
 @BaseURL("https://www.medium.com")
 public class HomePage extends PageObject {

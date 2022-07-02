@@ -5,7 +5,7 @@ import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 
 public class ProfilePage extends PageObject {
-    @Locator(webXPath = "//a[contains(@href, 'your_stories_page') and parent::h3]",
+    @Locator(webXPath = "(//a[contains(@href, 'your_stories_page') and parent::h3] | //h1[@data-selectable-paragraph]/a)",
             mobileXPath = "//android.widget.TextView[@resource-id='com.medium.reader:id/common_item_paragraph_text']")
     private Element userArticleTitle;
 

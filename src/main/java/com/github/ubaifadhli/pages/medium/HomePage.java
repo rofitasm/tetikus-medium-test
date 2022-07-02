@@ -22,11 +22,8 @@ public class HomePage extends PageObject {
     @MobileLocator(accessibilityID = "Discover something new")
     private Element searchButton;
 
-    //    @Locator(webXPath = "(//button[child::img])[last()]",
-//            mobileID = "com.medium.reader:id/profile_image")
     @Locator(webXPath = "//button[@aria-label='user options menu']",
             mobileID = "com.medium.reader:id/image")
-//    @MobileLocator(id = "com.medium.reader:id/image")
     private Element profileButton;
 
     @Locator(webXPath = "//a[contains(@href, 'settings')]",
@@ -94,6 +91,8 @@ public class HomePage extends PageObject {
 
         profileButton.waitUntilClickable().click();
         followingButton.waitUntilClickable().click();
+
+        waitFor(1);
     }
 
     public void backToHomeFromArticleWriter() {
@@ -143,6 +142,10 @@ public class HomePage extends PageObject {
         waitFor(1);
     }
 
+    public void mobileGoBack() {
+        new MobileElementFunction(getMobileDriver()).goBack();
+    }
+
     public void goToPublishedArticlePage() {
         profileButton.waitUntilClickable().click();
 
@@ -170,6 +173,11 @@ public class HomePage extends PageObject {
         waitFor(1);
 
         firstHomeArticle.waitUntilClickable().click();
+    }
+
+    public void refreshPage() {
+        new MobileElementFunction(getMobileDriver()).swipe(50, SwipeDirection.DOWN);
+        waitFor(2);
     }
 
     public void refreshProfilePage() {

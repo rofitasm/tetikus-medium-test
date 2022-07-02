@@ -1,10 +1,9 @@
 import com.github.ubaifadhli.pages.medium.*;
 import com.github.ubaifadhli.runners.TetikusBaseRunner;
-import com.github.ubaifadhli.util.CurrentThreadDriver;
-import com.github.ubaifadhli.util.DatetimeHelper;
-import com.github.ubaifadhli.util.RandomGenerator;
-import com.github.ubaifadhli.util.TetikusPropertiesReader;
+import com.github.ubaifadhli.util.*;
 import org.testng.annotations.Test;
+
+import java.awt.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -35,6 +34,7 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
         homePage.goToTwitterLoginPage();
 
         loginPage.fillTwitterLoginCredentials(username, password);
+        loginPage.waitForHomeTitle();
     }
 
     @Test
@@ -255,21 +255,54 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
     }
 
     @Test
-    public void userChecksFeedFromFollowedWriter() {
+    public void userLogsInUsingInvalidCredential() {
+        String username = TetikusPropertiesReader.getPropertyAsString("login.twitter.username");
+        String password = "invalidPassword";
+
         homePage.openPage();
-        homePage.waitFor(500);
+
+        homePage.goToTwitterLoginPage();
+
+        loginPage.fillTwitterLoginCredentials(username, password);
+
+        assertThat(loginPage.getLoginErrorText(), containsString("you entered did not match our records"));
     }
 
     @Test
     public void userUnfollowsWriter() {
         homePage.openPage();
-        homePage.waitFor(500);
+
+        homePage.openHomeArticle();
+        articlePage.goToWriterProfile();
+
+        writerPage.followWriter();
+
+        homePage.backToHomeFromArticleWriter();
+        homePage.openFollowingPage();
+
+        int previousWritersCount = followingPage.getFollowedWritersCount();
+
+        followingPage.unfollowWriter();
+
+        if (CurrentThreadDriver.isCurrentPlatformMobile())
+            homePage.openFollowingPage();
+
+        int currentWritersCount = followingPage.getFollowedWritersCount();
+
+        assertThat(currentWritersCount, equalTo(previousWritersCount - 1));
     }
 
     @Test
     public void userDeletesAComment() {
-        homePage.openPage();
-        homePage.waitFor(500);
+        createNewComment();
+
+        int previousCommentCount = articlePage.getReplyCommentCount();
+
+        articlePage.deleteComment();
+
+        int currentCommentCount = articlePage.getReplyCommentCount();
+
+        assertThat(currentCommentCount, equalTo(previousCommentCount - 1));
     }
 
     @Test
@@ -286,8 +319,30 @@ public class TetikusCoreRunner extends TetikusBaseRunner {
     }
 
     @Test
-    public void userChecksFeedFromFollowingPublication() {
+    public void userChecksRecentlyVisitedArticle() {
         homePage.openPage();
-        homePage.waitFor(500);
+
+        String actualVisitedArticle = homePage.getFirstArticleTitle();
+        String recentlyVisitedArticle = null;
+
+        homePage.openHomeArticle();
+        homePage.waitFor(2);
+
+        if (CurrentThreadDriver.isCurrentPlatformWeb()) {
+            homePage.openFollowingPage();
+            followingPage.clickReadingHistoryTab();
+
+            recentlyVisitedArticle = followingPage.getReadingHistoryArticle();
+
+        } else {
+            homePage.mobileGoBack();
+            homePage.goToListsPage();
+            homePage.refreshPage();
+            listPage.clickRecentlyViewedArticleTab();
+
+            recentlyVisitedArticle = listPage.getRecentlyViewedArticle();
+        }
+
+        assertThat(recentlyVisitedArticle, equalTo(actualVisitedArticle));
     }
 }

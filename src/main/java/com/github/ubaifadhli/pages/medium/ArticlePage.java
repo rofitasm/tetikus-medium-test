@@ -3,6 +3,7 @@ package com.github.ubaifadhli.pages.medium;
 
 import com.github.ubaifadhli.annotations.Locator;
 import com.github.ubaifadhli.annotations.MobileLocator;
+import com.github.ubaifadhli.annotations.WebLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 import com.github.ubaifadhli.util.MobileElementFunction;
@@ -25,7 +26,7 @@ public class ArticlePage extends PageObject {
     private Element publishCommentButton;
 
     // Cannot find better locator for web.
-    @Locator(webXPath = "//pre/div/div/div",
+    @Locator(webXPath = "(//pre/div/div/div)[last()]",
             mobileID = "com.medium.reader:id/response_text")
     private Element firstComment;
 
@@ -35,6 +36,21 @@ public class ArticlePage extends PageObject {
 
     @MobileLocator(id = "com.medium.reader:id/btn_save_to")
     private Element confirmAddToBookmarkButton;
+
+    @Locator(webXPath = "(//button[child::*[name()='svg' and contains(@class, 'overflow')]])[2]",
+            mobileID = "com.medium.reader:id/overflow_menu")
+    private Element commentEllipsisButton;
+
+    @Locator(webXPath = "//button[text()='Delete']",
+            mobileXPath = "//android.widget.TextView[@text='Delete']")
+    private Element deleteCommentButton;
+
+    @Locator(webXPath = "//p[child::button[text()='Reply']]",
+            mobileID = "com.medium.reader:id/reply_button")
+    private Element replyCommentButton;
+
+    @WebLocator(xpath = "//button[text()='Delete Response']")
+    private Element confirmDeleteCommentButton;
 
     public void createComment(String commentText) {
         commentButton.waitUntilClickable().click();
@@ -67,5 +83,25 @@ public class ArticlePage extends PageObject {
 
     public String getFirstCommentText() {
         return firstComment.getText();
+    }
+
+    public int getReplyCommentCount() {
+        return replyCommentButton.asElements().size();
+    }
+
+    public void deleteComment() {
+        commentEllipsisButton.waitUntilClickable().click();
+        deleteCommentButton.waitUntilClickable().click();
+
+        confirmDeleteCommentButton.waitUntilClickable().click();
+
+        waitFor(2);
+
+        if (isCurrentPlatformWeb()) {
+            getWebDriver().navigate().refresh();
+            commentButton.waitUntilClickable().click();
+        }
+
+        waitFor(1);
     }
 }

@@ -21,12 +21,22 @@ public class LoginPage extends PageObject {
     @MobileLocator(id = "com.medium.reader:id/title")
     private Element mobileHomeTitle;
 
+    @Locator(webXPath = "//span[contains(text(), 'did not match')]",
+            mobileXPath = "//android.widget.TextView[contains(@text, 'did not match')]")
+    private Element loginErrorText;
+
     public void fillTwitterLoginCredentials(String email, String password) {
         twitterUsernameField.waitUntilVisible().typeIntoField(email);
         twitterPasswordField.waitUntilVisible().typeIntoField(password);
 
         twitterSignInButton.waitUntilClickable().click();
+    }
 
+    public void waitForHomeTitle() {
         mobileHomeTitle.waitUntilVisible();
+    }
+
+    public String getLoginErrorText() {
+        return loginErrorText.waitUntilVisible().getText();
     }
 }

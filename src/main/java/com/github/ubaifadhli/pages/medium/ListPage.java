@@ -1,6 +1,7 @@
 package com.github.ubaifadhli.pages.medium;
 
 import com.github.ubaifadhli.annotations.Locator;
+import com.github.ubaifadhli.annotations.MobileLocator;
 import com.github.ubaifadhli.pages.PageObject;
 import com.github.ubaifadhli.util.Element;
 import com.github.ubaifadhli.util.MobileElementFunction;
@@ -30,6 +31,12 @@ public class ListPage extends PageObject {
             mobileXPath = "//android.widget.TextView[@text='Reading List']")
     private Element readingListButton;
 
+    @MobileLocator(accessibilityID = "Recently viewed")
+    private Element recentlyViewedTab;
+
+    @MobileLocator(id = "com.medium.reader:id/post_preview_title")
+    private Element recentlyViewedArticleText;
+
     public void createNewList(String newListName) {
         createNewListButton.waitUntilClickable().click();
 
@@ -38,6 +45,14 @@ public class ListPage extends PageObject {
         popupCreateNewListButton.waitUntilClickable().click();
 
         waitFor(2);
+    }
+
+    public void clickRecentlyViewedArticleTab() {
+        recentlyViewedTab.waitUntilClickable().click();
+    }
+
+    public String getRecentlyViewedArticle() {
+        return recentlyViewedArticleText.waitUntilVisible().getText();
     }
 
     public void clickSecondList() {

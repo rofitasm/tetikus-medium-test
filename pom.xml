@@ -12,7 +12,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <tetikus.core.version>0.2.2</tetikus.core.version>
+        <tetikus.core.version>master-SNAPSHOT</tetikus.core.version>
         <hamcrest.core.version>2.2</hamcrest.core.version>
 
         <sonar.organization>ubaifadhli</sonar.organization>
